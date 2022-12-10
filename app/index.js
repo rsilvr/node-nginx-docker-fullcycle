@@ -7,10 +7,6 @@ const { inspect } = require('util')
 const db = require('./db/database')
 const service = require('./service/people')
 
-app.listen(appPort, async () => {
-  await db.init().catch(logError)
-})
-
 app.get('/', async (_, res) => {
   try {
     await service.insertRandomPerson()
@@ -20,6 +16,10 @@ app.get('/', async (_, res) => {
     logError(error)
     res.status(500).send('<h1>Unexpected error!</h1>')
   }
+})
+
+app.listen(appPort, async () => {
+  await db.init().catch(logError)
 })
 
 const renderResponse = allPeople => {

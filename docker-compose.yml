@@ -13,12 +13,14 @@ services:
       - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
 
   app:
-    image: node:16.18.1
+    build:
+      context: ./app
+    image: node-nginx-app-env
     container_name: app
     working_dir: /home/node/app
     volumes:
       - ./app:/home/node/app
-    command: npm ci && npm start
+    command: sh buildAndRun.sh
     environment:
       - NODE_NGINX_APP_DB_HOST=mysql
       - NODE_NGINX_APP_PORT=${APP_PORT}
