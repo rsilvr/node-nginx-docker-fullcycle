@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:8.0.31
+    container_name: mysql
+    command: --innodb-use-native-aio=0
+    restart: always
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+
+  app:
+    image: node:16.18.1
+    container_name: app
+    working_dir: /home/node/app
+    volumes:
+      - ./app:/home/node/app
+    command: npm ci && npm start
+    environment:
+      - NODE_NGINX_APP_DB_HOST=mysql
+      - NODE_NGINX_APP_PORT=${APP_PORT}
+      - NODE_NGINX_APP_DB_NAME=${DB_NAME}
+      - NODE_NGINX_APP_DB_USERNAME=${DB_USERNAME}
+      - NODE_NGINX_APP_DB_PASSWORD=${DB_PASSWORD}
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
