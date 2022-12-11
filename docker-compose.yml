@@ -15,7 +15,7 @@ services:
   app:
     build:
       context: ./app
-    image: node-nginx-app-env
+    image: node-nginx-app
     container_name: app
     working_dir: /home/node/app
     volumes:
@@ -27,6 +27,7 @@ services:
       - NODE_NGINX_APP_DB_NAME=${DB_NAME}
       - NODE_NGINX_APP_DB_USERNAME=${DB_USERNAME}
       - NODE_NGINX_APP_DB_PASSWORD=${DB_PASSWORD}
+      - NODE_NGINX_APP_CONTAINER_TIMEOUT=${CONTAINER_TIMEOUT}
     depends_on:
       - mysql
 
@@ -38,6 +39,7 @@ services:
     command: startNginx.sh
     environment:
       - NODE_NGINX_APP_PORT=${APP_PORT}
+      - NODE_NGINX_APP_CONTAINER_TIMEOUT=${CONTAINER_TIMEOUT}
     ports:
       - "${APP_PORT}:${APP_PORT}"
     depends_on:
