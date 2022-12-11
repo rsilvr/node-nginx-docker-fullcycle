@@ -27,7 +27,18 @@ services:
       - NODE_NGINX_APP_DB_NAME=${DB_NAME}
       - NODE_NGINX_APP_DB_USERNAME=${DB_USERNAME}
       - NODE_NGINX_APP_DB_PASSWORD=${DB_PASSWORD}
-    ports:
-      - "8080:8080"
     depends_on:
       - mysql
+
+  nginx:
+    build:
+      context: ./nginx
+    image: node-nginx-server
+    container_name: nginx
+    command: startNginx.sh
+    environment:
+      - NODE_NGINX_APP_PORT=${APP_PORT}
+    ports:
+      - "${APP_PORT}:${APP_PORT}"
+    depends_on:
+    - app
