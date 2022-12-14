@@ -39,8 +39,9 @@ services:
     command: startNginx.sh
     environment:
       - NODE_NGINX_APP_PORT=${APP_PORT}
+      - NODE_NGINX_SERVER_PORT=${SERVER_PORT}
       - NODE_NGINX_APP_CONTAINER_TIMEOUT=${CONTAINER_TIMEOUT}
     ports:
-      - "${APP_PORT}:${APP_PORT}"
+      - "${USER_PORT}:${SERVER_PORT}"
     depends_on:
     - app

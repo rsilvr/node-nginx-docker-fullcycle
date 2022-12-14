@@ -1,5 +1,5 @@
 server {  
-  listen ${NODE_NGINX_APP_PORT};
+  listen ${NODE_NGINX_SERVER_PORT};
   server_name localhost;
   location / {  
     proxy_pass http://app:${NODE_NGINX_APP_PORT};  
